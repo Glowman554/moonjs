@@ -46,7 +46,7 @@ int main (void)
 {
     int i;
 
-    agc_engine_init (&State, "Core.bin", NULL, 0);
+    agc_engine_init (&State, "core.bin", NULL, 0);
 
     // runs the engine for 10 ms to finish initialization
     for(i=0; i<TENMS; i++){

@@ -1,16 +1,14 @@
-EMCC=/usr/local/emscripten/emcc
-CFLAGS=-O1
-DEPS = yaAGC.h agc_engine.h agc_symtab.h queue.h
+dist:
+	mkdir dist
+	make -C agc_js
+	cp agc_js/agc.* dist/.
+	cp agc.html dist/.
+	cp digital-7-mono-italic.ttf dist/.
+	wget http://code.jquery.com/jquery-1.9.1.js -O dist/jquery.js
 
-%.o: %.c $(DEPS)
-	$(EMCC) -c -o $@ $< $(CFLAGS)
+serve: dist
+	python2 -m SimpleHTTPServer 8080
 
-agc.js: main.o \
-        queue.o \
-        agc_engine.o \
-        agc_engine_init.o \
-        agc_utilities.o 
-        
-	$(EMCC) -o $@ $^ $(CFLAGS) -s EXPORTED_FUNCTIONS="['_main','_advance', '_sendPort', '_scanPort']" --preload-file Core.bin
-
-
+clean:
+	make -C agc_js clean
+	rm -rf dist
